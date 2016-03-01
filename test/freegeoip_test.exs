@@ -5,24 +5,12 @@ defmodule FreeGeoIPTest do
   @valid_ip "192.30.252.128"
   @invalid_ip "300.0.0.0"
 
-  @valid_format :json
-  @invalid_format :undefined
-
-  test "FreeGeoIP base_url is defined" do
-    assert(FreeGeoIP.config_base_url != nil)
-    assert(FreeGeoIP.config_base_url != "")
-  end
-
-  test "Fails if not supported format" do
-    assert {:error, _} = FreeGeoIP.search(@invalid_format, @valid_ip)
-  end
-
   test "Fails if IP is invalid" do
-    assert {:error, _} = FreeGeoIP.search(@valid_format, @invalid_ip)
+    assert {:error, _} = FreeGeoIP.Search.search(@invalid_ip)
   end
 
   test "Succesfully gets a result" do
-    case FreeGeoIP.search(@valid_format, @valid_ip) do
+    case FreeGeoIP.Search.search(@valid_ip) do
       {:ok, res} -> assert(
         %{
           "city" => _,
@@ -37,6 +25,18 @@ defmodule FreeGeoIPTest do
           "time_zone" => _,
           "zip_code" => _
         } = res)
+      {:error, %{error: err}} -> flunk err
+    end
+  end
+
+  test "Succesfully gets a result with specified locale" do
+    case FreeGeoIP.Search.search(@valid_ip, "en") do
+      {:ok, res} -> assert(%{"country_name" => "United States"} = res)
+      {:error, %{error: err}} -> flunk err
+    end
+
+    case FreeGeoIP.Search.search(@valid_ip, "es") do
+      {:ok, res} -> assert(%{"country_name" => "Estados Unidos"} = res)
       {:error, %{error: err}} -> flunk err
     end
   end

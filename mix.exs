@@ -2,13 +2,19 @@ defmodule FreeGeoIP.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :freegeoip,
-     version: "0.0.1",
-     elixir: "~> 1.2",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     package: package,
-     deps: deps]
+    [
+      app: :freegeoip,
+      version: "0.0.1",
+      elixir: "~> 1.2",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      package: package,
+      name: "FreeGeoIP",
+      source_url: "https://github.com/juljimm/freegeoip-elixir",
+      deps: deps,
+      docs: docs,
+      description: "Simple Elixir wrapper for freegeoip.net HTTP API."
+    ]
   end
 
   def application do
@@ -30,6 +36,13 @@ defmodule FreeGeoIP.Mixfile do
       maintainers: ["Julio Jiménez"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/juljimm/freegeoip-elixir",
-               "Docs" => "http://juljimm.github.io/freegeoip-elixir/"}]
+               "Docs" => "https://hexdocs.pm/freegeoip"}]
   end
+
+  def docs do
+    [
+      extras: ["README.md"]
+    ]
+  end
+
 end
