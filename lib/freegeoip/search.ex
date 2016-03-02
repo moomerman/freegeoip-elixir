@@ -11,6 +11,11 @@ defmodule FreeGeoIP.Search do
   {:ok, result} = FreeGeoIP.search(ip)
   ```
 
+  ### Arguments
+
+  * `ip`: can be either a stinrg or a tuple representing an IPv4 ip format
+  * `locale`: (optional) localize the geolocation data. You can use [ISO 639-1 code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) or any string valid for a `Accept-language` HTTP header specification](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html)
+
   ### Sample result
 
   ```ex
@@ -43,18 +48,29 @@ defmodule FreeGeoIP.Search do
   * `:process_timeout`: the server responded, but internally caused a timeout
   * `:timeout`: server did not respond in a few seconds
   * Any other reason given by the [HTTPoison.Error](https://hexdocs.pm/httpoison/HTTPoison.Error.html#content)
+  * `:incorrect_ip_range`: incorrect IP provided (like 500.23.1100.32)
+  * `:incorrect_ip_format`: specified IP format not supported. Use only string or tuple.
 
 
   """
-  def search(ip, locale \\ nil) do
+
+  def search(ip, locale \\ nil)
+  def search(ip, locale) when is_tuple(ip) do
+    ip = ip |> Tuple.to_list |> Enum.join(".")
+    search(ip, locale)
+  end
+  def search(ip, locale) when is_binary(ip) do
     if ip_valid?(ip) do
       case FreeGeoIP.make_request(:get, "/json/#{ip}", locale) do
         {:error, error} -> {:error, error}
         res             -> Poison.Parser.parse(res)
       end
     else
-      {:error, "IP format incorrect. Please use IPv4 format"}
+      {:error, %{reason: :incorrect_ip_range, error: "Incorrect IP. Please use IPv4 format"}}
     end
+  end
+  def search(ip, locale) do
+    {:error, %{reason: :incorrect_ip_format, error: "IP format not supported. Please use string (\"1.2.3.4\") or tuple ({1, 2, 3, 4}) IPv4 format"}}
   end
 
   #

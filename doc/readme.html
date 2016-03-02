@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Freegeoip – FreeGeoIP v0.0.1</title>
+    <title>Freegeoip – FreeGeoIP v0.0.2</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         FreeGeoIP
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.1
+        v0.0.2
       </h2>
     </div>
     
@@ -61,7 +61,9 @@
 <h1>Freegeoip</h1>
 <p>Simple Elixir wrapper for freegeoip.net HTTP API.</p>
 <p>This package allows to get geolocation information about a specified IP.</p>
-<h2 id="usage"> Usage</h2><pre><code class="ex">  {:ok, result} = FreeGeoIP.Search.search(ip)</code></pre>
+<h2 id="usage"> Usage</h2><pre><code class="ex">  {:ok, result} = FreeGeoIP.Search.search(&quot;192.30.252.128&quot;)</code></pre>
+<p>or</p>
+<pre><code class="ex">  {:ok, result} = FreeGeoIP.Search.search({192, 30, 252, 128})</code></pre>
 <h3>Sample result</h3>
 <pre><code class="ex">%{
   &quot;city&quot; =&gt; &quot;San Francisco&quot;, 
@@ -105,7 +107,7 @@ config :freegeoip, auth_password: &quot;your_password&quot;</code></pre>
 <ol>
 <li><p>Add freegeoip to your list of dependencies in <code class="inline">mix.exs</code>:</p>
 <pre><code class="ex">    def deps do
-      [{:freegeoip, &quot;~&gt; 0.0.1&quot;}]
+      [{:freegeoip, &quot;~&gt; 0.0.2&quot;}]
     end
     ```
 </code></pre>

@@ -7,7 +7,12 @@ This package allows to get geolocation information about a specified IP.
 ## Usage
 
 ```ex
-  {:ok, result} = FreeGeoIP.Search.search(ip)
+  {:ok, result} = FreeGeoIP.Search.search("192.30.252.128")
+```
+or
+
+```ex
+  {:ok, result} = FreeGeoIP.Search.search({192, 30, 252, 128})
 ```
 
 ### Sample result
@@ -98,7 +103,7 @@ You can install this package like any other HEX packages:
 
     ```ex
     def deps do
-      [{:freegeoip, "~> 0.0.1"}]
+      [{:freegeoip, "~> 0.0.2"}]
     end
     ```
 

@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>FreeGeoIP.Search – FreeGeoIP v0.0.1</title>
+    <title>FreeGeoIP.Search – FreeGeoIP v0.0.2</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         FreeGeoIP
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.1
+        v0.0.2
       </h2>
     </div>
     
@@ -59,7 +59,7 @@
 
 
       <h1>
-        <small class="visible-xs">FreeGeoIP v0.0.1</small>
+        <small class="visible-xs">FreeGeoIP v0.0.2</small>
         FreeGeoIP.Search
         
         
@@ -127,7 +127,7 @@
     </a>
     <span class="signature">search(ip, locale \\ nil)</span>
       
-      <a href="https://github.com/juljimm/freegeoip-elixir/blob/master/lib/freegeoip/search.ex#L49" class="view-source" rel="help" title="View Source">
+      <a href="https://github.com/juljimm/freegeoip-elixir/blob/master/lib/freegeoip/search.ex#L57" class="view-source" rel="help" title="View Source">
        <i class="icon-code"></i>
      </a>
     
@@ -136,6 +136,13 @@
   <section class="docstring">
     <p>Performs a IP search.</p>
 <pre><code class="ex">{:ok, result} = FreeGeoIP.search(ip)</code></pre>
+<h3>Arguments</h3>
+<ul>
+<li><code class="inline">ip</code>: can be either a stinrg or a tuple representing an IPv4 ip format
+</li>
+<li><code class="inline">locale</code>: (optional) localize the geolocation data. You can use <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">ISO 639-1 code](<a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes</a>) or any string valid for a <code class="inline">Accept-language</code> HTTP header specification</a>
+</li>
+</ul>
 <h3>Sample result</h3>
 <pre><code class="ex">%{
   &quot;city&quot; =&gt; &quot;San Francisco&quot;,
@@ -162,6 +169,10 @@
 <li><code class="inline">:timeout</code>: server did not respond in a few seconds
 </li>
 <li>Any other reason given by the <a href="https://hexdocs.pm/httpoison/HTTPoison.Error.html#content">HTTPoison.Error</a>
+</li>
+<li><code class="inline">:incorrect_ip_range</code>: incorrect IP provided (like 500.23.1100.32)
+</li>
+<li><code class="inline">:incorrect_ip_format</code>: specified IP format not supported. Use only string or tuple.
 </li>
 </ul>
 
