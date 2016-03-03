@@ -1,4 +1,5 @@
-# Freegeoip
+# Freegeoip 
+[![Build Status](https://travis-ci.org/juljimm/freegeoip-elixir.svg?branch=master)](https://travis-ci.org/juljimm/freegeoip-elixir)
 
 Simple Elixir wrapper for freegeoip.net HTTP API.
 
