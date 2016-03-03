@@ -20,9 +20,51 @@ defmodule FreeGeoIP do
 
   Returns dict
   """
-  def make_request( method, endpoint, locale \\ nil, body \\ []) do
+  def make_request(method, endpoint, locale \\ nil, body \\ []) do
     url = config_base_url <> endpoint
 
+    headers = set_headers(locale)
+
+    case request(method, url, body, headers) do
+      {:ok, response} -> process_response(response)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, %{reason: reason, error: "error connecting to freegeoip server"}}
+    end
+  end
+
+  #
+  # Private
+  #
+
+  defp process_response(%{status_code: status_code, body: body}) do
+    case status_code do
+      401 ->
+        {:error, %{reason: :auth_failed, error: "freegeoip server requires basic auth credentials"}}
+      200 ->
+        case body do
+          "Try again later\n" ->
+            {:error, %{reason: :process_timeout, error: "freegeoip server seems to be oversaturated"}}
+          body -> body
+        end
+      status_code ->
+        {:error, %{reason: :invalid_state, error: "freegeoip request returned an invalid HTTP status code: " <> status_code}}
+    end
+  end
+
+  defp auth_header(username, password) do
+    if (username && password) do
+      encoded = Base.encode64("#{username}:#{password}")
+      {"Authorization", "Basic #{encoded}"}
+    end
+  end
+
+  defp language_header(locale) do
+    if locale do
+      {"Accept-Language", locale}
+    end
+  end
+
+  defp set_headers(locale) do
     headers = [
       {"Content-Type", "application/json"},
       {"Accept", "application/json"}
@@ -36,42 +78,6 @@ defmodule FreeGeoIP do
     headers = case language_header(locale) do
       nil -> headers
       lang -> [lang | headers]
-    end
-
-    case request(method, url, body, headers) do
-      {:ok, response} ->
-        case response.status_code do
-          401 ->
-            {:error, %{reason: :auth_failed, error: "freegeoip server requires basic auth credentials"}}
-          200 ->
-            case response.body do
-              "Try again later\n" ->
-                {:error, %{reason: :process_timeout, error: "freegeoip server seems to be oversaturated"}}
-              body -> body
-            end
-          state ->
-            {:error, %{reason: :invalid_state, error: "freegeoip request returned an invalid HTTP state: " <> state}}
-        end
-
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:error, %{reason: reason, error: "error connecting to freegeoip server"}}
-    end
-  end
-
-  #
-  # Private
-  #
-
-  defp auth_header(username, password) do
-    if (username && password) do
-      encoded = Base.encode64("#{username}:#{password}")
-      {"Authorization", "Basic #{encoded}"}
-    end
-  end
-
-  defp language_header(locale) do
-    if locale do
-      {"Accept-Language", locale}
     end
   end
 

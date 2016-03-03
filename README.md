@@ -107,7 +107,7 @@ You can install this package like any other HEX packages:
 
     ```ex
     def deps do
-      [{:freegeoip, "~> 0.0.2"}]
+      [{:freegeoip, "~> 0.0.3"}]
     end
     ```
 
