@@ -11,4 +11,4 @@ script:
 
 after_script:
   - mix deps.get --only docs
-┃ - MIX_ENV=docs mix inch.report
+  - MIX_ENV=docs mix inch.report
