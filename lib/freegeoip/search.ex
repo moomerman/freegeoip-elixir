@@ -1,5 +1,6 @@
 defmodule FreeGeoIP.Search do
   @moduledoc """
+  This module includes the basic search function to get geo information about a specified IP.
   """
 
   @endpoint "authorization.json"
@@ -69,7 +70,7 @@ defmodule FreeGeoIP.Search do
       {:error, %{reason: :incorrect_ip_range, error: "Incorrect IP. Please use IPv4 format"}}
     end
   end
-  def search(ip, locale) do
+  def search(_ip, _locale) do
     {:error, %{reason: :incorrect_ip_format, error: "IP format not supported. Please use string (\"1.2.3.4\") or tuple ({1, 2, 3, 4}) IPv4 format"}}
   end
 

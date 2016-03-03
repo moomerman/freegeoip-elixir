@@ -13,7 +13,9 @@ defmodule FreeGeoIP.Mixfile do
       source_url: "https://github.com/juljimm/freegeoip-elixir",
       deps: deps,
       docs: docs,
-      description: "Simple Elixir wrapper for freegeoip.net HTTP API."
+      description: "Simple Elixir wrapper for freegeoip.net HTTP API.",
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test],
     ]
   end
 
@@ -26,7 +28,9 @@ defmodule FreeGeoIP.Mixfile do
       {:httpoison, "~> 0.8.0" },
       {:poison, "~> 1.5"},
       {:earmark, "~> 0.1", only: :dev},
-      {:ex_doc, "~> 0.11", only: :dev}
+      {:ex_doc, "~> 0.11", only: :dev},
+      {:excoveralls, "~> 0.4", only: :test},
+      {:inch_ex, "~> 0.5.1", only: :docs}
     ]
   end
 

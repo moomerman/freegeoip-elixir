@@ -1,5 +1,8 @@
 # Freegeoip 
 [![Build Status](https://travis-ci.org/juljimm/freegeoip-elixir.svg?branch=master)](https://travis-ci.org/juljimm/freegeoip-elixir)
+[![Coverage Status](https://coveralls.io/repos/github/juljimm/freegeoip-elixir/badge.svg?branch=master)](https://coveralls.io/github/juljimm/freegeoip-elixir?branch=master)
+[![Inline docs](http://inch-ci.org/github/juljimm/freegeoip-elixir.svg)](http://inch-ci.org/github/juljimm/freegeoip-elixir)
+
 
 Simple Elixir wrapper for freegeoip.net HTTP API.
 
