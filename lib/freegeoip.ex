@@ -47,7 +47,7 @@ defmodule FreeGeoIP do
           body -> body
         end
       status_code ->
-        {:error, %{reason: :invalid_state, error: "freegeoip request returned an invalid HTTP status code: " <> status_code}}
+        {:error, %{reason: :invalid_state, error: "freegeoip request returned an invalid HTTP status code: " <> to_string(status_code)}}
     end
   end
 
@@ -86,7 +86,10 @@ defmodule FreeGeoIP do
   end
 
   defp config_auth_user do
-    Application.get_env(:freegeoip, :auth_user) || System.get_env("FREEGEOIP_USER")
+    Application.get_env(:freegeoip, :auth_username) ||
+    Application.get_env(:freegeoip, :auth_user) ||
+    System.get_env("FREEGEOIP_USERNAME") ||
+    System.get_env("FREEGEOIP_USER")
   end
 
   defp config_auth_password do

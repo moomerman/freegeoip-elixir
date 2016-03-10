@@ -2,6 +2,8 @@ defmodule FreeGeoIPTest do
   use ExUnit.Case
   doctest FreeGeoIP
 
+  @chinese_ip "1.1.16.0"
+
   @valid_ip "192.30.252.128"
   @valid_ip_tuple {192, 30, 252, 128}
 
@@ -46,6 +48,26 @@ defmodule FreeGeoIPTest do
 
   test "Succesfully gets a result with tuple format" do
     case FreeGeoIP.Search.search(@valid_ip_tuple) do
+      {:ok, res} -> assert(
+        %{
+          "city" => _,
+          "country_code" => _,
+          "country_name" => _,
+          "ip" => _,
+          "latitude" => _,
+          "longitude" => _,
+          "metro_code" => _,
+          "region_code" => _,
+          "region_name" => _,
+          "time_zone" => _,
+          "zip_code" => _
+        } = res)
+      {:error, %{error: err}} -> flunk err
+    end
+  end
+
+  test "Succesfully gets a result with a chinese ip" do
+    case FreeGeoIP.Search.search(@chinese_ip) do
       {:ok, res} -> assert(
         %{
           "city" => _,

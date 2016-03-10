@@ -94,7 +94,7 @@ Alternatively you can include this data into your server host in your `config.ex
 ```ex
 use Mix.Config
 
-config :freegeoip, auth_user: "your_username"
+config :freegeoip, auth_username: "your_username"
 config :freegeoip, auth_password: "your_password"
 ```
 
