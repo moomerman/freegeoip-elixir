@@ -75,7 +75,7 @@ defmodule FreeGeoIP do
       auth -> [auth | headers]
     end
 
-    headers = case language_header(locale) do
+    case language_header(locale) do
       nil -> headers
       lang -> [lang | headers]
     end
